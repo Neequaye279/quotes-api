@@ -16,6 +16,9 @@ class Handler(BaseHTTPRequestHandler):
         elif self.path == "/quote":
             status = 200
             body = random.choice(QUOTES) + "\n"
+        elif self.path == "/health":
+            status = 200
+            body = "OK\n"
         else:
             status = 404
             body = "Not found\n"
