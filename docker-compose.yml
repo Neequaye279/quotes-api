@@ -1,0 +1,7 @@
+services:
+  api:
+    build: .
+    image: quotes-api
+    ports:
+     - "8092:8000"
+    restart: unless-stopped
