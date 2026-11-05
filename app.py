@@ -1,5 +1,5 @@
 import random
-from http.server import BaseHTTPRequestHandler, HTTPServer
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 QUOTES = [
     "Make it work, then make it right.",
@@ -27,6 +27,6 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body.encode())
 
-HTTPServer(("0.0.0.0", 8000), Handler).serve_forever()
+ThreadingHTTPServer(("0.0.0.0", 8000), Handler).serve_forever()
 
 
