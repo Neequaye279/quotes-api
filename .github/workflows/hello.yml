@@ -11,7 +11,7 @@ jobs:
       - name: Say hello
         run: echo "hello from the pipeline"
       - name: List the files
-        run: ls -a
+        run: ls /does-not-exist
       - name: Show who and where
         run: |
           whoami
