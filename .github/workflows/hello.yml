@@ -1,0 +1,19 @@
+name: hello
+on:
+  push:
+  pull_request:
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+    steps:
+      -name: Checkout code
+       uses: actions/checkout@v4
+      -name: Say hello
+       run:  echo "hello from the pipeline"
+      -name: List the files
+       run:  ls -a
+      -name: Show who and where
+       run: |
+         whoami
+         hostname
+         pwd
