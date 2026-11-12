@@ -17,3 +17,5 @@ jobs:
           whoami
           hostname
           pwd
+      - name: Run whereami
+        run: ./whereami.sh
