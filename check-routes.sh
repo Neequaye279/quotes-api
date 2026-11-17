@@ -16,9 +16,22 @@ check_route(){
 	fi
 }
 
+check_body(){
+	local path=$1
+	local expected=$2
+	local body=$(curl -s -m 5 "$BASE$path")
+	if [ "$body" == "$expected" ]; then
+		echo "PASS $path says $expected"
+	else
+		echo "FAIL $path says [$body], expected[$expected]"
+		FAILED=1
+	fi
+}
+
 check_route /
 check_route /quote
 check_route /health
+check_body /health OK
 
 exit $FAILED
 
