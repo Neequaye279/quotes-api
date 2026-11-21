@@ -28,3 +28,25 @@ jobs:
       - name: Stop the app
         if: always()
         run: docker compose down
+  publish:
+    needs: check-routes
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Log in to Docker Hub
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+      - name: Build the image
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+        run: docker build -t "$DOCKERHUB_USERNAME/quotes-api:latest" -t "$DOCKERHUB_USERNAME/quotes-api:${{ github.sha }}" .
+      - name: Push the image
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+        run: |
+          docker push "$DOCKERHUB_USERNAME/quotes-api:latest"
+          docker push "$DOCKERHUB_USERNAME/quotes-api:${{ github.sha }}"
